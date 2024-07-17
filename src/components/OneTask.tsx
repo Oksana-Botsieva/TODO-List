@@ -4,22 +4,26 @@ import "../style/oneTask.scss";
 
 interface TaskProps {
   task: Task;
-  toggleTask: (id: number) => void;
-  removeTask: (id: number) => void;
+  onToggleTask: (id: number) => void;
+  onRemoveTask: (id: number) => void;
 }
 
-const OneTask: React.FC<TaskProps> = ({ task, toggleTask, removeTask }) => {
+const TaskItem: React.FC<TaskProps> = ({
+  task,
+  onToggleTask,
+  onRemoveTask,
+}) => {
   return (
     <div className={"task"}>
       <input
         type="checkbox"
         checked={task.completed}
-        onChange={() => toggleTask(task.id)}
+        onChange={() => onToggleTask(task.id)}
       />
       {task.text}
-      <button onClick={() => removeTask(task.id)}> Remove</button>
+      <button onClick={() => onRemoveTask(task.id)}> Remove</button>
     </div>
   );
 };
 
-export default OneTask;
+export default TaskItem;

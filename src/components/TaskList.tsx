@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Task } from "../types";
-import OneTask from "./OneTask";
+import TaskItem from "./OneTask";
 
-const TaskList: React.FC = () => {
+const TasksList: React.FC = () => {
   //
   // 1. Разворачиваю компонент.Прописваю тип TaskList TaskList: React.FC
   //
@@ -15,18 +15,19 @@ const TaskList: React.FC = () => {
   //
   // 3.Создаю состояние для текста таксков, типизирую его useState<string>
   //
-  const addTask = (text: string) => {
+  const handleAddTask = (text: string) => {
     if (text.trim() === "") {
       return;
     }
 
-    const newTask: Task = {
-      id: tasks.length ? tasks[tasks.length - 1].id + 1 : 1,
-      text,
-      completed: false,
-    };
-    setTasks([...tasks, newTask]);
-    console.log(newTask);
+    setTasks((prevTasks) => {
+      const newTask: Task = {
+        id: prevTasks.length ? prevTasks[prevTasks.length - 1].id + 1 : 1,
+        text,
+        completed: false,
+      };
+      return [...prevTasks, newTask];
+    });
     setTaskText("");
   };
   //
@@ -37,9 +38,9 @@ const TaskList: React.FC = () => {
   //          setTaskText(""); --> изменяю состояние таска, очищаю инпут
   //
 
-  const toggleTask = (id: number) => {
-    setTasks(
-      tasks.map((task) =>
+  const handleToggleTask = (id: number) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
         task.id === id ? { ...task, completed: !task.completed } : task,
       ),
     );
@@ -49,27 +50,27 @@ const TaskList: React.FC = () => {
   //      изменяю состояния тасков. Прохожу по массиву с помощью map - если id таска совпадает с id -переданным в
   //      функцию, то мы меняем только ключ completed, либо возвращаем обратно наш таск
   //
-  const removeTask = (id: number) => {
-    setTasks(tasks.filter((task) => task.id !== id));
+  const handleRemoveTask = (id: number) => {
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
   };
   //
   // 6. Функцию удаления таска
   //
+  const handleChangeTaskText = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTaskText(e.target.value);
+  };
+
   return (
     <div>
       <>
-        <input
-          type="text"
-          value={taskText}
-          onChange={(e) => setTaskText(e.target.value)}
-        />
-        <button onClick={() => addTask(taskText)}>Add Task</button>
+        <input type="text" value={taskText} onChange={handleChangeTaskText} />
+        <button onClick={() => handleAddTask(taskText)}>Add Task</button>
         {tasks.map((task) => (
-          <OneTask
+          <TaskItem
             key={task.id}
             task={task}
-            toggleTask={toggleTask}
-            removeTask={removeTask}
+            onToggleTask={handleToggleTask}
+            onRemoveTask={handleRemoveTask}
           />
         ))}
       </>
@@ -77,4 +78,4 @@ const TaskList: React.FC = () => {
   );
 };
 
-export default TaskList;
+export default TasksList;
