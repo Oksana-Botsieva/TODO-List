@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Oksana-Botsieva/Todo-list.git/static/css/main.ba3e06cf.css",
+    "main.js": "/Oksana-Botsieva/Todo-list.git/static/js/main.251646d3.js",
+    "index.html": "/Oksana-Botsieva/Todo-list.git/index.html",
+    "main.ba3e06cf.css.map": "/Oksana-Botsieva/Todo-list.git/static/css/main.ba3e06cf.css.map",
+    "main.251646d3.js.map": "/Oksana-Botsieva/Todo-list.git/static/js/main.251646d3.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ba3e06cf.css",
+    "static/js/main.251646d3.js"
+  ]
+}
