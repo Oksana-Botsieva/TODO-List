@@ -3,18 +3,39 @@ import { Task } from "../types";
 import OneTask from "./OneTask";
 
 const TaskList: React.FC = () => {
+  //
+  // 1. Разворачиваю компонент.Прописваю тип TaskList TaskList: React.FC
+  //
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [taskText, setTaskText] = useState<string>("");
+  //
+  // 2.Создаю состояние для тасков, начальное значение пустой массив,
+  //     так же указываю тип useState<Task[]>
 
+  const [taskText, setTaskText] = useState<string>("");
+  //
+  // 3.Создаю состояние для текста таксков, типизирую его useState<string>
+  //
   const addTask = (text: string) => {
+    if (text.trim() === "") {
+      return;
+    }
+
     const newTask: Task = {
       id: tasks.length ? tasks[tasks.length - 1].id + 1 : 1,
       text,
       completed: false,
     };
     setTasks([...tasks, newTask]);
+    console.log(newTask);
     setTaskText("");
   };
+  //
+  // 4. Прописываю функцию для добавление таска. Параметр по умолчанию - text. - добавляю тип string,
+  //       создаю переменную  newTask - уже зная, какие параметры он принимает исходя из интерфейсов, задаю значение каждому ключу.
+  //          обновляю состояние setTasks([...tasks, newTask]); --> копирую все предыдущие таски и добавляю новый
+  //          newTask.
+  //          setTaskText(""); --> изменяю состояние таска, очищаю инпут
+  //
 
   const toggleTask = (id: number) => {
     setTasks(
@@ -23,11 +44,17 @@ const TaskList: React.FC = () => {
       ),
     );
   };
-
+  //
+  // 5. Создаю функцию переключатель, выполнено/не выполнено. Параметр по умолчанию - id - тип:number.,
+  //      изменяю состояния тасков. Прохожу по массиву с помощью map - если id таска совпадает с id -переданным в
+  //      функцию, то мы меняем только ключ completed, либо возвращаем обратно наш таск
+  //
   const removeTask = (id: number) => {
     setTasks(tasks.filter((task) => task.id !== id));
   };
-
+  //
+  // 6. Функцию удаления таска
+  //
   return (
     <div>
       <>
