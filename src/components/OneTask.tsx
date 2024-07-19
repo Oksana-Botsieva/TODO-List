@@ -1,9 +1,9 @@
 import React from "react";
-import { Task } from "../types";
+import { ITask } from "../types";
 import "../style/oneTask.scss";
 
 interface TaskProps {
-  task: Task;
+  task: ITask;
   onToggleTask: (id: number) => void;
   onRemoveTask: (id: number) => void;
 }

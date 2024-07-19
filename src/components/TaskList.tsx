@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { Task } from "../types";
 import TaskItem from "./OneTask";
+import { ITask } from "../types";
 
 const TasksList: React.FC = () => {
   //
   // 1. Разворачиваю компонент.Прописваю тип TaskList TaskList: React.FC
   //
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [tasks, setTasks] = useState<ITask[]>([]);
   //
   // 2.Создаю состояние для тасков, начальное значение пустой массив,
   //     так же указываю тип useState<Task[]>
@@ -21,7 +21,7 @@ const TasksList: React.FC = () => {
     }
 
     setTasks((prevTasks) => {
-      const newTask: Task = {
+      const newTask: ITask = {
         id: prevTasks.length ? prevTasks[prevTasks.length - 1].id + 1 : 1,
         text,
         completed: false,
@@ -60,10 +60,32 @@ const TasksList: React.FC = () => {
     setTaskText(e.target.value);
   };
 
+  const handleEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      if (taskText.trim() === "") {
+        return;
+      }
+      setTasks((prevTasks) => {
+        const newTask: ITask = {
+          id: prevTasks.length ? prevTasks[prevTasks.length - 1].id + 1 : 1,
+          text: taskText,
+          completed: false,
+        };
+        return [...prevTasks, newTask];
+      });
+      setTaskText("");
+    }
+  };
+
   return (
     <div>
       <>
-        <input type="text" value={taskText} onChange={handleChangeTaskText} />
+        <input
+          type="text"
+          value={taskText}
+          onChange={handleChangeTaskText}
+          onKeyUp={handleEnterPress}
+        />
         <button onClick={() => handleAddTask(taskText)}>Add Task</button>
         {tasks.map((task) => (
           <TaskItem
